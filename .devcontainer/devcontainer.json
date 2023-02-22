@@ -1,5 +1,6 @@
 {
 	"image": "mcr.microsoft.com/devcontainers/universal:2",
+	"forwardPorts": [4200],
 	"features": {
 		"ghcr.io/devcontainers-contrib/features/angular-cli:2": {}
 	},
