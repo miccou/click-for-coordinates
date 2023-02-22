@@ -59,7 +59,6 @@ export class AppComponent implements AfterViewInit {
         parseFloat(e.latlng.lat.toFixed(6)),
         parseFloat(e.latlng.lng.toFixed(6)) % 360
       );
-      console.log(newLatLng); // get the coordinates
       var newMarker = L.circleMarker(newLatLng, {
         radius: 3,
         color: '#3F83F8',
