@@ -1,19 +1,25 @@
-import { Component, AfterViewInit } from '@angular/core';
+import { Component, AfterViewInit, ViewChild, ElementRef } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import * as L from 'leaflet';
+import { Clipboard } from '@angular/cdk/clipboard';
 
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
 })
 export class AppComponent implements AfterViewInit {
+  @ViewChild('textAreaJson') textAreaJson!: ElementRef;
+  @ViewChild('textAreaCsv') textAreaCsv!: ElementRef;
+  @ViewChild('resetButton') resetButton!: ElementRef;
+
   private map!: L.Map;
 
   coordinates: L.LatLng[] = [];
   line!: L.Polyline;
 
   coordinateOutputTypeForm: FormGroup;
-  constructor(fb: FormBuilder) {
+
+  constructor(fb: FormBuilder, private clipboard: Clipboard) {
     this.coordinateOutputTypeForm = fb.group({
       format: ['json', Validators.required],
     });
@@ -35,21 +41,6 @@ export class AppComponent implements AfterViewInit {
     zoomControl: false,
     doubleClickZoom: false,
   };
-
-  coordinateOutputType() {
-    return this.coordinateOutputTypeForm.get('format')?.value;
-  }
-
-  coordinatesJson() {
-    return JSON.stringify(this.coordinates);
-  }
-
-  coordinatesCsv() {
-    return this.coordinatesJson()
-      .replaceAll(/((\[)|(\])|(\")|(\{)|(\:)|(lat)|(lng))+/g, '')
-      .replaceAll('},', '\n')
-      .replaceAll('}', '');
-  }
 
   ngAfterViewInit(): void {
     this.map = L.map('map', this.options);
@@ -79,5 +70,36 @@ export class AppComponent implements AfterViewInit {
         this.line.addTo(this.map);
       }
     });
+  }
+
+  coordinateOutputType() {
+    return this.coordinateOutputTypeForm.get('format')?.value;
+  }
+
+  coordinatesJson() {
+    return JSON.stringify(this.coordinates);
+  }
+
+  coordinatesCsv() {
+    return this.coordinatesJson()
+      .replaceAll(/((\[)|(\])|(\")|(\{)|(\:)|(lat)|(lng))+/g, '')
+      .replaceAll('},', '\n')
+      .replaceAll('}', '');
+  }
+
+  copyToClipboard() {
+    if (this.coordinateOutputType() === 'json') {
+      console.log(this.textAreaJson);
+      this.clipboard.copy(this.textAreaJson.nativeElement.innerHTML);
+    } else if (this.coordinateOutputType() === 'csv') {
+      console.log(this.textAreaCsv);
+      this.clipboard.copy(this.textAreaCsv.nativeElement.innerHTML);
+    } else {
+      throw 'invalid format exception';
+    }
+  }
+
+  reset() {
+    console.log(this.resetButton);
   }
 }
