@@ -9,21 +9,32 @@
       <label>Format:</label>
       <label>
         <input type="radio" value="json" formControlName="format" />
-        <span class="ml-1">json</span>
+        <span class="ml-1">JSON</span>
       </label>
       <label>
         <input type="radio" value="csv" formControlName="format" />
-        <span class="ml-1">csv</span>
+        <span class="ml-1">CSV</span>
       </label>
     </form>
 
+    <div class="flex flex-row gap-2 p-0 justify-between text-center">
+      <div class="flex-1 p-1 bg-sky-200 shadow-md rounded-md select-none cursor-pointer">
+        <button (click)="copyToClipboard()">Copy</button>
+      </div>
+      <div class="flex-1 p-1 bg-gray-50 text-gray-300 shadow-md rounded-md select-none">
+        <button #resetButton disabled>Reset</button>
+      </div>
+    </div>
+
     <textarea
+      #textAreaJson
       *ngIf="coordinateOutputType() === 'json'"
       readonly="readonly"
       class="flex-grow w-full p-1 resize-none text-xs border-none outline-none shadow-md rounded-md"
       >{{ coordinatesJson() }}</textarea
     >
     <textarea
+      #textAreaCsv
       *ngIf="coordinateOutputType() === 'csv'"
       readonly="readonly"
       class="flex-grow w-full p-1 resize-none text-sm border-none outline-none shadow-md rounded-md"
@@ -35,7 +46,8 @@
         <a href="https://github.com/miccou/click-for-coordinates" target="_blank">GitHub</a>
       </div>
       <div class="flex-1 p-1 bg-sky-200 shadow-md rounded-md select-none cursor-pointer">
-        <a href="https://stadiamaps.com/" target="_blank">Basemaps</a></div>
+        <a href="https://stadiamaps.com/" target="_blank">Basemaps</a>
+      </div>
     </div>
   </div>
 </div>
