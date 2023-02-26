@@ -2,7 +2,8 @@ import { Component, AfterViewInit, ViewChild, ElementRef } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import * as L from 'leaflet';
 import { Clipboard } from '@angular/cdk/clipboard';
-
+import { faCopy, faTrashCan, faMap } from '@fortawesome/free-solid-svg-icons';
+import { faGithub } from '@fortawesome/free-brands-svg-icons';
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
@@ -13,6 +14,11 @@ export class AppComponent implements AfterViewInit {
   @ViewChild('resetButton') resetButton!: ElementRef;
 
   private map!: L.Map;
+
+  faCopy = faCopy;
+  faTrashCan = faTrashCan;
+  faMap = faMap;
+  faGithub = faGithub;
 
   coordinates: L.LatLng[] = [];
   line!: L.Polyline;

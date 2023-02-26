@@ -1,11 +1,14 @@
-<div class="flex flex-row h-screen w-full bg-sky-50">
+<div class="flex flex-row h-screen w-full bg-sky-50 text-slate-800">
   <div class="flex flex-1 h-full p-2 pr-0">
-    <div class="h-full w-full block flex-none ">
-      <div class="h-full  shadow-md rounded-md" id="map"></div>
+    <div class="h-full w-full block flex-none">
+      <div class="h-full shadow-md rounded-md" id="map"></div>
     </div>
   </div>
   <div class="flex-grow-0 h-full w-64 p-2 flex flex-col gap-2">
-    <form [formGroup]="coordinateOutputTypeForm" class="flex flex-row gap-2 p-1 shadow-md rounded-md bg-sky-100 justify-center">
+    <form
+      [formGroup]="coordinateOutputTypeForm"
+      class="flex flex-row gap-2 p-1 shadow-md rounded-md bg-sky-100 justify-center"
+    >
       <label>Format:</label>
       <label>
         <input type="radio" value="json" formControlName="format" />
@@ -18,11 +21,19 @@
     </form>
 
     <div class="flex flex-row gap-2 p-0 justify-between text-center">
-      <div class="flex-1 p-1 bg-sky-200 shadow-md rounded-md select-none cursor-pointer">
-        <button (click)="copyToClipboard()">Copy</button>
+      <div
+        class="flex-1 p-1 bg-sky-200 shadow-md rounded-md select-none cursor-pointer"
+      >
+        <button (click)="copyToClipboard()">
+          Copy&nbsp;&nbsp;<fa-icon [icon]="faCopy"></fa-icon>
+        </button>
       </div>
-      <div class="flex-1 p-1 bg-gray-50 text-gray-300 shadow-md rounded-md select-none">
-        <button #resetButton disabled>Reset</button>
+      <div
+        class="flex-1 p-1 bg-gray-50 text-gray-300 shadow-md rounded-md select-none"
+      >
+        <button #resetButton disabled>
+          Reset&nbsp;&nbsp;<fa-icon [icon]="faTrashCan"></fa-icon>
+        </button>
       </div>
     </div>
 
@@ -42,11 +53,14 @@
     >
 
     <div class="flex flex-row gap-2 p-0 justify-between text-center">
-      <div class="flex-1 p-1 bg-sky-200 shadow-md rounded-md select-none cursor-pointer">
-        <a href="https://github.com/miccou/click-for-coordinates" target="_blank">GitHub</a>
-      </div>
-      <div class="flex-1 p-1 bg-sky-200 shadow-md rounded-md select-none cursor-pointer">
-        <a href="https://stadiamaps.com/" target="_blank">Basemaps</a>
+      <div
+        class="flex-1 p-1 bg-sky-200 shadow-md rounded-md select-none cursor-pointer"
+      >
+        <a
+          href="https://github.com/miccou/click-for-coordinates"
+          target="_blank"
+          >GitHub&nbsp;&nbsp;<fa-icon [icon]="faGithub"></fa-icon
+        ></a>
       </div>
     </div>
   </div>
