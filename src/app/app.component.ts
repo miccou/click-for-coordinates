@@ -4,6 +4,7 @@ import * as L from 'leaflet';
 import { Clipboard } from '@angular/cdk/clipboard';
 import { faCopy, faTrashCan, faMap } from '@fortawesome/free-solid-svg-icons';
 import { faGithub } from '@fortawesome/free-brands-svg-icons';
+import { SnackbarService } from './snackbar.service';
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
@@ -25,7 +26,11 @@ export class AppComponent implements AfterViewInit {
 
   coordinateOutputTypeForm: FormGroup;
 
-  constructor(fb: FormBuilder, private clipboard: Clipboard) {
+  constructor(
+    fb: FormBuilder,
+    private clipboard: Clipboard,
+    private snackbar: SnackbarService
+  ) {
     this.coordinateOutputTypeForm = fb.group({
       format: ['json', Validators.required],
     });
@@ -95,17 +100,17 @@ export class AppComponent implements AfterViewInit {
 
   copyToClipboard() {
     if (this.coordinateOutputType() === 'json') {
-      console.log(this.textAreaJson);
       this.clipboard.copy(this.textAreaJson.nativeElement.innerHTML);
     } else if (this.coordinateOutputType() === 'csv') {
-      console.log(this.textAreaCsv);
       this.clipboard.copy(this.textAreaCsv.nativeElement.innerHTML);
     } else {
       throw 'invalid format exception';
     }
+    this.snackbar.show('Copied to clipboard', 'success');
   }
 
   reset() {
     console.log(this.resetButton);
+    this.snackbar.show('hello world', 'success');
   }
 }
