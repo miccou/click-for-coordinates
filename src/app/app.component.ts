@@ -2,7 +2,12 @@ import { Component, AfterViewInit, ViewChild, ElementRef } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import * as L from 'leaflet';
 import { Clipboard } from '@angular/cdk/clipboard';
-import { faCopy, faTrashCan, faMap } from '@fortawesome/free-solid-svg-icons';
+import {
+  faCopy,
+  faTrashCan,
+  faMap,
+  faUpRightAndDownLeftFromCenter,
+} from '@fortawesome/free-solid-svg-icons';
 import { faGithub } from '@fortawesome/free-brands-svg-icons';
 import { SnackbarService } from './snackbar.service';
 @Component({
@@ -22,9 +27,12 @@ export class AppComponent implements AfterViewInit {
   faGithub = faGithub;
 
   coordinates: L.LatLng[] = [];
+  markers: L.CircleMarker[] = [];
   line!: L.Polyline;
   coordinateOutputTypeForm: FormGroup;
   resetHtml!: string;
+  resetStatus: 'none' | 'initial' | 'confirm' = 'none';
+  resetTimeout!: any;
 
   constructor(
     fb: FormBuilder,
@@ -68,7 +76,7 @@ export class AppComponent implements AfterViewInit {
         fillOpacity: 100,
       });
       newMarker.options.className = '!cursor-grab';
-      newMarker.addTo(this.map);
+      this.markers.push(newMarker.addTo(this.map));
       this.coordinates.push(newLatLng);
 
       if (this.coordinates.length === 1) {
@@ -110,12 +118,23 @@ export class AppComponent implements AfterViewInit {
   }
 
   reset() {
-    console.log(this.resetButton);
-    this.resetHtml = this.resetButton.nativeElement.innerHTML;
-    this.resetButton.nativeElement.innerHTML =
-      'Really?&nbsp;&nbsp;<fa-icon [icon]="faTrashCan"></fa-icon>';
-    setTimeout(() => {
+    if (this.resetStatus === 'none') {
+      this.resetStatus = 'initial';
+      this.resetHtml = this.resetButton.nativeElement.innerHTML;
+      this.resetButton.nativeElement.innerHTML =
+        'Really?&nbsp;&nbsp;<fa-icon [icon]="faTrashCan"></fa-icon>';
+      this.resetTimeout = setTimeout(() => {
+        this.resetButton.nativeElement.innerHTML = this.resetHtml;
+        this.resetStatus = 'none';
+      }, 3000);
+    } else {
+      this.resetStatus = 'none';
+      clearTimeout(this.resetTimeout);
       this.resetButton.nativeElement.innerHTML = this.resetHtml;
-    }, 3000);
+      this.resetHtml = '';
+      this.coordinates = [];
+      this.markers.forEach((m) => m.removeFrom(this.map));
+      this.line.removeFrom(this.map);
+    }
   }
 }
