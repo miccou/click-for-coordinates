@@ -23,8 +23,8 @@ export class AppComponent implements AfterViewInit {
 
   coordinates: L.LatLng[] = [];
   line!: L.Polyline;
-
   coordinateOutputTypeForm: FormGroup;
+  resetHtml!: string;
 
   constructor(
     fb: FormBuilder,
@@ -111,6 +111,11 @@ export class AppComponent implements AfterViewInit {
 
   reset() {
     console.log(this.resetButton);
-    this.snackbar.show('hello world', 'success');
+    this.resetHtml = this.resetButton.nativeElement.innerHTML;
+    this.resetButton.nativeElement.innerHTML =
+      'Really?&nbsp;&nbsp;<fa-icon [icon]="faTrashCan"></fa-icon>';
+    setTimeout(() => {
+      this.resetButton.nativeElement.innerHTML = this.resetHtml;
+    }, 3000);
   }
 }

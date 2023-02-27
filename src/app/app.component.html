@@ -29,9 +29,9 @@
         </button>
       </div>
       <div
-        class="flex-1 p-1 bg-gray-50 text-gray-300 shadow-md rounded-md select-none"
+        class="flex-1 p-1 bg-sky-200 shadow-md rounded-md select-none cursor-pointer"
       >
-        <button #resetButton disabled>
+        <button #resetButton (click)="reset()">
           Reset&nbsp;&nbsp;<fa-icon [icon]="faTrashCan"></fa-icon>
         </button>
       </div>
