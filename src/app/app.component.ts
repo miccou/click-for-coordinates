@@ -1,6 +1,7 @@
 import { Component, AfterViewInit, ViewChild, ElementRef } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import * as L from 'leaflet';
+import 'mapbox-gl-leaflet';
 import { Clipboard } from '@angular/cdk/clipboard';
 import {
   faCopy,
@@ -46,14 +47,12 @@ export class AppComponent implements AfterViewInit {
 
   options = {
     layers: [
-      L.tileLayer(
-        'https://tiles.stadiamaps.com/tiles/alidade_smooth/{z}/{x}/{y}{r}.png',
-        {
-          maxZoom: 20,
-          attribution:
-            '&copy; <a href="https://stadiamaps.com/">Stadia Maps</a>, &copy; <a href="https://openmaptiles.org/">OpenMapTiles</a> &copy; <a href="https://openstreetmap.org">OpenStreetMap</a> contributors',
-        }
-      ),
+
+
+      L.mapboxGL({
+        accessToken: '',
+        style: 'https://tiles.stadiamaps.com/styles/alidade_smooth.json'
+      })
     ],
     zoom: 5,
     center: { lat: -35.307841, lng: 149.12447 },
@@ -63,6 +62,10 @@ export class AppComponent implements AfterViewInit {
 
   ngAfterViewInit(): void {
     this.map = L.map('map', this.options);
+
+    setTimeout(() => {
+      this.map.invalidateSize(true);
+    }, 100);
 
     this.map.on('click', (e) => {
       var newLatLng = L.latLng(
