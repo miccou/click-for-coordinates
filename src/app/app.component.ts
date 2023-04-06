@@ -75,17 +75,33 @@ export class AppComponent implements AfterViewInit {
         fillColor: '#3F83F8',
         fillOpacity: 100,
       });
-      newMarker.options.className = '!cursor-grab';
+      newMarker.addEventListener('click', (e) => {
+        console.log(e);
+        this.coordinates = this.coordinates.filter((c) => c !== newLatLng);
+        this.markers = this.markers.filter((m) => m !== newMarker);
+        this.map.removeLayer(newMarker);
+        this.map.removeLayer(this.line);
+        this.line = L.polyline(this.coordinates, { color: '#c084fc' }); //purple-500
+        this.line.options.className = 'pointer';
+        this.line.options.pane = 'overlayPane';
+        this.line.addTo(this.map);
+      });
+      newMarker.bindTooltip('Remove');
+      newMarker.options.className = 'pointer';
+      newMarker.options.pane = 'markerPane';
       this.markers.push(newMarker.addTo(this.map));
       this.coordinates.push(newLatLng);
 
       if (this.coordinates.length === 1) {
         this.line = L.polyline(this.coordinates, { color: '#c084fc' }); //purple-500
-        this.line.options.className = '!cursor-grab';
+        this.line.options.className = 'cursor-grab';
+        this.line.options.pane = 'overlayPane';
         this.line.addTo(this.map);
       } else {
         this.map.removeLayer(this.line);
         this.line.addLatLng(newLatLng);
+        this.line.options.className = 'cursor-grab';
+        this.line.options.pane = 'overlayPane';
         this.line.addTo(this.map);
       }
     });
