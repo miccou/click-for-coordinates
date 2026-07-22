@@ -1,4 +1,4 @@
-import { Component, AfterViewInit, ViewChild, ElementRef } from '@angular/core';
+import { Component, AfterViewInit, ViewChild, ElementRef, ChangeDetectionStrategy } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import * as L from 'leaflet';
 import { Clipboard } from '@angular/cdk/clipboard';
@@ -11,8 +11,10 @@ import {
 import { faGithub } from '@fortawesome/free-brands-svg-icons';
 import { SnackbarService } from './snackbar.service';
 @Component({
-  selector: 'app-root',
-  templateUrl: './app.component.html',
+    selector: 'app-root',
+    templateUrl: './app.component.html',
+    changeDetection: ChangeDetectionStrategy.Eager,
+    standalone: false
 })
 export class AppComponent implements AfterViewInit {
   @ViewChild('textAreaJson') textAreaJson!: ElementRef;

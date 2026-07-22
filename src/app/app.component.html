@@ -8,7 +8,7 @@
     <form
       [formGroup]="coordinateOutputTypeForm"
       class="flex flex-row gap-2 p-1 shadow-md rounded-md bg-sky-100 justify-center"
-    >
+      >
       <label>Format:</label>
       <label>
         <input type="radio" value="json" formControlName="format" />
@@ -23,45 +23,47 @@
     <div class="flex flex-row gap-2 p-0 justify-between text-center">
       <div
         class="flex-1 p-1 bg-sky-200 shadow-md rounded-md select-none cursor-pointer"
-      >
+        >
         <button (click)="copyToClipboard()">
           Copy&nbsp;&nbsp;<fa-icon [icon]="faCopy"></fa-icon>
         </button>
       </div>
       <div
         class="flex-1 p-1 bg-sky-200 shadow-md rounded-md select-none cursor-pointer"
-      >
+        >
         <button #resetButton (click)="reset()">
           Reset&nbsp;&nbsp;<fa-icon [icon]="faTrashCan"></fa-icon>
         </button>
       </div>
     </div>
 
-    <textarea
-      #textAreaJson
-      *ngIf="coordinateOutputType() === 'json'"
-      readonly="readonly"
-      class="flex-grow w-full p-1 resize-none text-xs border-none outline-none shadow-md rounded-md"
-      >{{ coordinatesJson() }}</textarea
-    >
-    <textarea
-      #textAreaCsv
-      *ngIf="coordinateOutputType() === 'csv'"
-      readonly="readonly"
-      class="flex-grow w-full p-1 resize-none text-sm border-none outline-none shadow-md rounded-md"
-      >{{ coordinatesCsv() }}</textarea
-    >
+    @if (coordinateOutputType() === 'json') {
+      <textarea
+        #textAreaJson
+        readonly="readonly"
+        class="flex-grow w-full p-1 resize-none text-xs border-none outline-none shadow-md rounded-md"
+        >{{ coordinatesJson() }}</textarea
+        >
+      }
+      @if (coordinateOutputType() === 'csv') {
+        <textarea
+          #textAreaCsv
+          readonly="readonly"
+          class="flex-grow w-full p-1 resize-none text-sm border-none outline-none shadow-md rounded-md"
+          >{{ coordinatesCsv() }}</textarea
+          >
+        }
 
-    <div class="flex flex-row gap-2 p-0 justify-between text-center">
-      <div
-        class="flex-1 p-1 bg-sky-200 shadow-md rounded-md select-none cursor-pointer"
-      >
-        <a
-          href="https://github.com/miccou/click-for-coordinates"
-          target="_blank"
-          >GitHub&nbsp;&nbsp;<fa-icon [icon]="faGithub"></fa-icon
-        ></a>
+        <div class="flex flex-row gap-2 p-0 justify-between text-center">
+          <div
+            class="flex-1 p-1 bg-sky-200 shadow-md rounded-md select-none cursor-pointer"
+            >
+            <a
+              href="https://github.com/miccou/click-for-coordinates"
+              target="_blank"
+              >GitHub&nbsp;&nbsp;<fa-icon [icon]="faGithub"></fa-icon
+            ></a>
+          </div>
+        </div>
       </div>
     </div>
-  </div>
-</div>
